@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            font-family: monospace;
+            background-color: #2E4756;
+            text-align: center;
+            color: #DBC2CF;
+            font-size: large;
+        }
+
+        .output {
+            background-color: #16262E;
+            padding: 8px;
+            border-radius: 8px;
+            display: inline-block;
+            width: 25%;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: rgb(59, 59, 79);
+            border: 3px solid white;
+            color: white;
+        }
+
+        input {
+            background-color: rgb(10, 10, 35);
+            color: white;
+            border: 1px solid rgb(59, 59, 79);
+            font-size: large;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+    <title>Statistics Calculator</title>
+</head>
+<body>
+    <h1>Statistics Calculator</h1>
+    <p>Enter a list of comma-separated numbers.</p>
+    <form onsubmit="calculate(); return false;">
+        <label for="numbers">Numbers:</label>
+        <input type="text" name="numbers" id="numbers" />
+        <button type="submit">Calculate</button>
+    </form>
+    <div class="results">
+        <p>
+            The <dfn>mean</dfn> of a list of numbers is the average, calculated by
+            taking the sum of all numbers and dividing that by the count of numbers.
+        </p>
+        <p class="bold output">Mean: <span id="mean"></span></p>
+        <p>
+            The <dfn>median</dfn> of a list of numbers is the number that appears in
+            the middle of the list, when sorted from least to greatest.
+        </p>
+        <p class="bold output">Median: <span id="median"></span></p>
+        <p>
+            The <dfn>mode</dfn> of a list of numbers is the number that appears most
+            often in the list.
+        </p>
+        <p class="bold output">Mode: <span id="mode"></span></p>
+        <p>
+            The <dfn>range</dfn> of a list of numbers is the difference between the
+            largest and smallest numbers in the list.
+        </p>
+        <p class="bold output">Range: <span id="range"></span></p>
+        <p>
+            The <dfn>standard deviation</dfn> of a list of numbers is a measure of
+            how spread out the numbers are. It's calculated as the square root of
+            the average of the squared differences between each number and the mean
+            of the set.
+        </p>
+        <p class="bold output">
+            Standard Deviation: <span id="standardDeviation"></span>
+        </p>
+    </div>
+
+    <!--------------------->
+    <script>
+        const getMean = (array) => array.reduce((acc, el) => acc + el, 0) / array.length;
+        const getMedian = (array) => {
+            const sorted = array.sort((a, b) => a - b);
+            const median =
+                array.length % 2 === 0
+                    ? getMean([sorted[array.length / 2], sorted[array.length / 2 - 1]])
+                    : sorted[Math.floor(array.length / 2)];
+            return median;
+        }
+
+        const getMode = (array) => {
+            const counts = {};
+            array.forEach((el) => {
+                counts[el] = (counts[el] || 0) + 1;
+            })
+            if (new Set(Object.values(counts)).size === 1) {
+                console.log(new Set(Object.values(counts)))
+                return null;
+            }
+
+            const highest = Object.keys(counts).sort(
+                (a, b) => counts[b] - counts[a]
+            )[0];
+            const mode = Object.keys(counts).filter(
+                (el) => counts[el] === counts[highest]
+            );
+            return mode.join(", ");
+        }
+
+        const getRange = (array) => {
+            return Math.max(...array) - Math.min(...array);
+        }
+
+        const getStandardDeviation = (array) => {
+            const mean = getMean(array);
+            const squaredDifferences = array.map(el => (el - mean) ** 2);
+            const averageSquaredDifference = squaredDifferences.reduce((acc, el) => acc + el, 0) / array.length;
+            const standardDeviation = Math.sqrt(averageSquaredDifference);
+            return standardDeviation;
+        }
+
+        const calculate = () => {
+            const value = document.querySelector("#numbers").value;
+            if (value === '') {
+                alert('input somethin will ya');
+                return;
+            }
+
+
+            const array = value.split(/,\s*/g);
+
+            if (array.length === 1) {
+                alert('A LIST dummy');
+                return;
+            }
+
+            const numbers = array.map(el => Number(el)).filter(el => !isNaN(el));
+            const mean = getMean(numbers).toFixed(3);
+            const median = getMedian(numbers).toFixed(3);
+            const mode = getMode(numbers);
+            const range = getRange(numbers).toFixed(3);
+            const standardDeviation = getStandardDeviation(numbers).toFixed(3);
+
+            document.querySelector("#mean").textContent = mean;
+            document.querySelector("#median").textContent = median;
+            document.querySelector("#mode").textContent = mode;
+            document.querySelector("#range").textContent = range;
+            document.querySelector("#standardDeviation").textContent = standardDeviation;
+        }
+
+    </script>
+</body>
+</html>
