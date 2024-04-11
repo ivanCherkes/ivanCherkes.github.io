@@ -125,41 +125,41 @@
         }
 
         const calculate = () => {
-            const value = document.querySelector("#numbers").value;
-            if (value === '') {
-                alert('Input something, will ya?');
-                return;
-            }
+    const value = document.querySelector("#numbers").value;
+    if (value === '') {
+        alert('Input something, will ya?');
+        return;
+    }
 
-            const array = value.split(/,\s*/g);
-            
+    const array = value.split(/,\s*/g);
 
-            array.forEach(element => {
-                if (isNaN(element)) {
-                    alert('Only numbers, please!');
-                    return; 
-                }
-            });
-
-        
-            if (array.length === 1) {
-                alert('You need to input a LIST OF NUMBERS bruh');
-                return;
-            }
-
-            const numbers = array.map(el => Number(el)).filter(el => !isNaN(el));
-            const mean = getMean(numbers).toFixed(3);
-            const median = getMedian(numbers).toFixed(3);
-            const mode = getMode(numbers);
-            const range = getRange(numbers).toFixed(3);
-            const standardDeviation = getStandardDeviation(numbers).toFixed(3);
-
-            document.querySelector("#mean").textContent = mean;
-            document.querySelector("#median").textContent = median;
-            document.querySelector("#mode").textContent = mode;
-            document.querySelector("#range").textContent = range;
-            document.querySelector("#standardDeviation").textContent = standardDeviation;
+    for (let i = 0; i < array.length; i++) {
+        if (isNaN(array[i])) {
+            alert('only numbers lol');
+            return; 
         }
+    }
+
+    if (array.length === 1) {
+        alert('bro it is a list of numbers');
+        return;
+    }
+
+    const numbers = array.map(el => Number(el.trim())).filter(el => !isNaN(el));
+    const mean = getMean(numbers).toFixed(3);
+    const median = getMedian(numbers).toFixed(3);
+    const mode = getMode(numbers);
+    const range = getRange(numbers).toFixed(3);
+    const standardDeviation = getStandardDeviation(numbers).toFixed(3);
+
+    document.querySelector("#mean").textContent = mean;
+    document.querySelector("#median").textContent = median;
+    document.querySelector("#mode").textContent = mode || "No mode";
+    document.querySelector("#range").textContent = range;
+    document.querySelector("#standardDeviation").textContent = standardDeviation;
+}
+
+
 
 
     </script>
