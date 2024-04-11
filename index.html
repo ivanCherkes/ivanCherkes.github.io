@@ -134,7 +134,7 @@
             const array = value.split(/,\s*/g);
             
 
-            array.some(element => {
+            array.forEach(element => {
                 if (isNaN(element)) {
                     alert('Only numbers, please!');
                     return; 
