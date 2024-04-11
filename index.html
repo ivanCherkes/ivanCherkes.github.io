@@ -125,39 +125,45 @@
         }
 
         const calculate = () => {
-            const value = document.querySelector("#numbers").value;
-            if (value === '') {
-                alert('input somethin will ya');
-                return;
-            }
+    const value = document.querySelector("#numbers").value;
+    if (value === '') {
+        alert('Input something, will ya?');
+        return;
+    }
 
-            const array = value.split(/,\s*/g);
+    const array = value.split(/,\s*/g);
+    let containsNonNumber = false; // Flag to track if a non-number is found
 
-            array.forEach(element => {
-                if (isNaN(element)){
-                    alert('only numbers');
-                    return;
-                }
-            })
-
-            if (array.length === 1) {
-                alert('A LIST dummy');
-                return;
-            }
-
-            const numbers = array.map(el => Number(el)).filter(el => !isNaN(el));
-            const mean = getMean(numbers).toFixed(3);
-            const median = getMedian(numbers).toFixed(3);
-            const mode = getMode(numbers);
-            const range = getRange(numbers).toFixed(3);
-            const standardDeviation = getStandardDeviation(numbers).toFixed(3);
-
-            document.querySelector("#mean").textContent = mean;
-            document.querySelector("#median").textContent = median;
-            document.querySelector("#mode").textContent = mode;
-            document.querySelector("#range").textContent = range;
-            document.querySelector("#standardDeviation").textContent = standardDeviation;
+    array.forEach(element => {
+        if (isNaN(element)) {
+            alert('Only numbers, please!');
+            containsNonNumber = true; // Set the flag to true
+            return; // Exit the forEach loop early
+           
         }
+        return
+    });
+
+   
+    if (array.length === 1) {
+        alert('You need to input a list of numbers, buddy!');
+        return;
+    }
+
+    const numbers = array.map(el => Number(el)).filter(el => !isNaN(el));
+    const mean = getMean(numbers).toFixed(3);
+    const median = getMedian(numbers).toFixed(3);
+    const mode = getMode(numbers);
+    const range = getRange(numbers).toFixed(3);
+    const standardDeviation = getStandardDeviation(numbers).toFixed(3);
+
+    document.querySelector("#mean").textContent = mean;
+    document.querySelector("#median").textContent = median;
+    document.querySelector("#mode").textContent = mode;
+    document.querySelector("#range").textContent = range;
+    document.querySelector("#standardDeviation").textContent = standardDeviation;
+}
+
 
     </script>
 </body>
